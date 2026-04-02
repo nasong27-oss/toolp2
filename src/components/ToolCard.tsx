@@ -38,7 +38,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-slate-600 transition-colors flex-shrink-0"
-            onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink size={16} />
           </a>
