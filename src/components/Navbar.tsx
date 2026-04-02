@@ -11,9 +11,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/tools" className="flex items-center gap-2 font-bold text-gray-900">
-          <span className="text-xl">🧰</span>
-          <span>Product2 Toolbox</span>
+        <Link href="/tools" className="flex items-center gap-2 font-bold text-gray-900 min-w-0">
+          <span className="text-xl flex-shrink-0">🧰</span>
+          <span className="truncate">Product2 Toolbox</span>
         </Link>
 
         <div className="flex items-center gap-3">
@@ -57,10 +57,10 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => signIn("google")}
-              className="flex items-center gap-2 bg-slate-900 text-white text-sm px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors"
+              className="flex items-center gap-1.5 bg-slate-900 text-white text-sm px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors whitespace-nowrap"
             >
               <LogIn size={15} />
-              Google 로그인
+              <span className="hidden xs:inline">Google </span>로그인
             </button>
           )}
         </div>

@@ -31,25 +31,23 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="flex items-start justify-between gap-3 mb-5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Toolbox</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <h1 className="text-xl font-bold text-gray-900">Toolbox</h1>
+          <p className="text-gray-500 text-xs mt-0.5">
             팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음
           </p>
         </div>
         {session?.user ? (
           <Link
             href="/tools/new"
-            className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
+            className="flex-shrink-0 flex items-center gap-1.5 bg-slate-900 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
           >
-            <Plus size={16} />
-            등록하기
+            <Plus size={15} />
+            등록
           </Link>
-        ) : (
-          <p className="text-sm text-gray-400">등록하려면 로그인하세요</p>
-        )}
+        ) : null}
       </div>
 
       <div className="mb-6">

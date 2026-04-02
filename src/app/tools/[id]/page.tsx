@@ -59,22 +59,22 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
 
         <h1 className="text-2xl font-bold text-gray-900 mb-3">{tool.title}</h1>
 
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex flex-wrap items-center gap-3 mb-6">
           <a
             href={tool.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium max-w-full truncate"
           >
-            <ExternalLink size={14} />
-            {tool.url}
+            <ExternalLink size={14} className="flex-shrink-0" />
+            <span className="truncate">{tool.url}</span>
           </a>
           {tool.githubUrl && (
             <a
               href={tool.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800"
+              className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800 flex-shrink-0"
             >
               <ExternalLink size={14} />
               GitHub
