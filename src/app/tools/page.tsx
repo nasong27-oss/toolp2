@@ -7,6 +7,8 @@ import ToolCard from "@/components/ToolCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 interface ToolsPageProps {
   searchParams: { category?: string };
 }

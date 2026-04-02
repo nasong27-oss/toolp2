@@ -49,8 +49,8 @@ export default function ToolForm() {
       });
 
       if (res.ok) {
-        const tool = await res.json();
-        router.push(`/tools/${tool.id}`);
+        router.push("/tools");
+        router.refresh();
       } else {
         const err = await res.json();
         setServerError(err.error?.message || "오류가 발생했습니다.");
