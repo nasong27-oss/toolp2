@@ -24,7 +24,7 @@ export default function LikeButton({
 
   async function handleLike() {
     if (!isLoggedIn) {
-      signIn("google", { callbackUrl: window.location.href });
+      signIn("google", { callbackUrl: window.location.pathname });
       return;
     }
     if (loading) return;
