@@ -1,11 +1,12 @@
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import ToolForm from "@/components/ToolForm";
+import LoginPrompt from "@/components/LoginPrompt";
 
 export default async function NewToolPage() {
   const session = await auth();
+
   if (!session?.user) {
-    redirect("/tools");
+    return <LoginPrompt message="툴을 등록하려면 Google 로그인이 필요합니다." />;
   }
 
   return (

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Plus, LogIn, LogOut } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { LogOut, Plus } from "lucide-react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -16,17 +16,17 @@ export default function Navbar() {
           <span className="truncate">Product2 Toolbox</span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {status === "loading" ? (
             <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse" />
           ) : session?.user ? (
             <>
               <Link
                 href="/tools/new"
-                className="hidden sm:flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gray-300 transition-colors"
+                className="flex items-center gap-1.5 bg-slate-900 text-white text-sm px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 <Plus size={15} />
-                등록하기
+                <span>등록하기</span>
               </Link>
               <div className="flex items-center gap-2">
                 {session.user.image ? (
@@ -42,26 +42,23 @@ export default function Navbar() {
                     {session.user.name?.charAt(0) ?? "?"}
                   </div>
                 )}
-                <span className="text-sm text-gray-700 hidden sm:block">
-                  {session.user.name}
-                </span>
               </div>
               <button
                 onClick={() => signOut()}
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                 title="로그아웃"
               >
                 <LogOut size={16} />
               </button>
             </>
           ) : (
-            <button
-              onClick={() => signIn("google")}
-              className="flex items-center gap-1.5 bg-slate-900 text-white text-sm px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors whitespace-nowrap"
+            <Link
+              href="/tools/new"
+              className="flex items-center gap-1.5 bg-slate-900 text-white text-sm px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
             >
-              <LogIn size={15} />
-              <span className="hidden xs:inline">Google </span>로그인
-            </button>
+              <Plus size={15} />
+              <span>등록하기</span>
+            </Link>
           )}
         </div>
       </div>

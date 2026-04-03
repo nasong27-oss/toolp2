@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 interface LikeButtonProps {
@@ -23,12 +24,11 @@ export default function LikeButton({
 
   async function handleLike() {
     if (!isLoggedIn) {
-      alert("좋아요를 누르려면 로그인이 필요합니다.");
+      signIn("google");
       return;
     }
     if (loading) return;
 
-    // Optimistic update
     setLiked(!liked);
     setCount(liked ? count - 1 : count + 1);
     setLoading(true);
@@ -40,7 +40,6 @@ export default function LikeButton({
         setLiked(data.liked);
         setCount(data.count);
       } else {
-        // Revert on error
         setLiked(liked);
         setCount(count);
       }
@@ -63,10 +62,7 @@ export default function LikeButton({
           : "bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700"
       )}
     >
-      <Heart
-        size={16}
-        className={cn(liked ? "fill-red-500 text-red-500" : "")}
-      />
+      <Heart size={16} className={cn(liked ? "fill-red-500 text-red-500" : "")} />
       <span>{count}</span>
     </button>
   );

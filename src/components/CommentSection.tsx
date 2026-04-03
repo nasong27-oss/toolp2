@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 import { formatDate } from "@/lib/utils";
 
 interface Comment {
@@ -100,7 +101,7 @@ export default function CommentSection({
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            placeholder="댓글을 입력하세요..."
+            placeholder="댓글을 입력하세요... (로그인 필요)"
             rows={2}
             className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 text-gray-900 text-sm resize-none"
           />
@@ -113,9 +114,12 @@ export default function CommentSection({
           </button>
         </form>
       ) : (
-        <p className="text-sm text-gray-400 bg-gray-50 rounded-lg px-4 py-3">
-          댓글을 작성하려면 로그인이 필요합니다.
-        </p>
+        <button
+          onClick={() => signIn("google")}
+          className="w-full text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 transition-colors text-left"
+        >
+          💬 댓글을 남기려면 <span className="font-medium text-slate-700">Google 로그인</span>이 필요합니다
+        </button>
       )}
     </div>
   );

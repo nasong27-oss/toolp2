@@ -10,16 +10,26 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 
 interface ToolsPageProps {
-  searchParams: { category?: string };
+  searchParams: { category?: string; sort?: string };
 }
 
 export default async function ToolsPage({ searchParams }: ToolsPageProps) {
   const session = await auth();
   const category = searchParams.category as Category | undefined;
+  const sort = searchParams.sort ?? "latest";
 
   const validCategories = Object.values(Category);
   const safeCategory =
     category && validCategories.includes(category) ? category : undefined;
+
+  const orderBy =
+    sort === "likes"
+      ? { likes: { _count: "desc" as const } }
+      : sort === "comments"
+      ? { comments: { _count: "desc" as const } }
+      : sort === "author"
+      ? { author: { name: "asc" as const } }
+      : { createdAt: "desc" as const };
 
   const tools = await prisma.tool.findMany({
     where: safeCategory ? { category: safeCategory } : {},
@@ -27,7 +37,7 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
       author: { select: { id: true, name: true, image: true } },
       _count: { select: { likes: true, comments: true } },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy,
   });
 
   return (
