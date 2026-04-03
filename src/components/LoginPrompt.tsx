@@ -17,7 +17,7 @@ export default function LoginPrompt({ message }: LoginPromptProps) {
         <h2 className="text-lg font-semibold text-gray-900 mb-2">로그인이 필요해요</h2>
         <p className="text-sm text-gray-500 mb-6">{message}</p>
         <button
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google", { callbackUrl: "/tools" })}
           className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-xl font-medium hover:bg-slate-700 transition-colors"
         >
           Google로 로그인

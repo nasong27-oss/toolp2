@@ -115,7 +115,8 @@ export default function CommentSection({
         </form>
       ) : (
         <button
-          onClick={() => signIn("google")}
+          type="button"
+          onClick={() => signIn("google", { callbackUrl: window.location.href })}
           className="w-full text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 transition-colors text-left"
         >
           💬 댓글을 남기려면 <span className="font-medium text-slate-700">Google 로그인</span>이 필요합니다

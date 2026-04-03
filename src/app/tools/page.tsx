@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { Category } from "@prisma/client";
 import Link from "next/link";
-import { Plus } from "lucide-react";
 import ToolCard from "@/components/ToolCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import { Suspense } from "react";
@@ -42,22 +41,11 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="flex items-start justify-between gap-3 mb-5">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Toolbox</h1>
-          <p className="text-gray-500 text-xs mt-0.5">
-            팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음
-          </p>
-        </div>
-        {session?.user ? (
-          <Link
-            href="/tools/new"
-            className="flex-shrink-0 flex items-center gap-1.5 bg-slate-900 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
-          >
-            <Plus size={15} />
-            등록
-          </Link>
-        ) : null}
+      <div className="mb-5">
+        <h1 className="text-xl font-bold text-gray-900">Toolbox</h1>
+        <p className="text-gray-500 text-xs mt-0.5">
+          팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음
+        </p>
       </div>
 
       <div className="mb-6">

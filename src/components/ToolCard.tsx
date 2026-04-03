@@ -29,9 +29,9 @@ interface ToolCardProps {
 
 export default function ToolCard({ tool }: ToolCardProps) {
   return (
-    <div className="relative bg-white rounded-xl border border-gray-200 hover:border-slate-300 hover:shadow-md transition-all flex flex-col">
+    <div className="relative bg-white rounded-xl border border-gray-200 hover:border-slate-300 hover:shadow-md active:scale-[0.98] active:shadow-none transition-all flex flex-col cursor-pointer">
       {/* 전체 카드 클릭 영역 */}
-      <Link href={`/tools/${tool.id}`} className="absolute inset-0 z-0" aria-label={tool.title} />
+      <Link href={`/tools/${tool.id}`} className="absolute inset-0 z-0" prefetch={true} aria-label={tool.title} />
 
       <div className="relative z-10 p-4 flex-1 pointer-events-none">
         <div className="flex items-center justify-between gap-2 mb-2">
