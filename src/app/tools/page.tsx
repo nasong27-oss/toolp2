@@ -54,11 +54,6 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-5">
-      <div className="mb-4">
-        <h1 className="text-xl font-bold text-gray-900">Toolbox</h1>
-        <p className="text-gray-500 text-xs mt-0.5">팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음</p>
-      </div>
-
       <div className="mb-5">
         <Suspense fallback={<div className="h-16" />}>
           <TagFilter allTags={allTags} authorName={authorName} />

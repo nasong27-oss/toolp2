@@ -57,7 +57,7 @@ export default function Navbar() {
           ) : (
             <>
               <button
-                onClick={() => signIn("google", { callbackUrl: "/tools" })}
+                onClick={() => signIn("google", { callbackUrl: "/api/auth/after-signin?redirect=/tools" })}
                 className="flex items-center gap-1 text-gray-600 border border-gray-200 text-xs px-2.5 py-1.5 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 <LogIn size={13} />
