@@ -1,25 +1,19 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { Category } from "@prisma/client";
 import Link from "next/link";
 import ToolCard from "@/components/ToolCard";
-import CategoryFilter from "@/components/CategoryFilter";
+import TagFilter from "@/components/TagFilter";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
 interface ToolsPageProps {
-  searchParams: { category?: string; sort?: string };
+  searchParams: { tag?: string; sort?: string; authorId?: string };
 }
 
 export default async function ToolsPage({ searchParams }: ToolsPageProps) {
   const session = await auth();
-  const category = searchParams.category as Category | undefined;
-  const sort = searchParams.sort ?? "latest";
-
-  const validCategories = Object.values(Category);
-  const safeCategory =
-    category && validCategories.includes(category) ? category : undefined;
+  const { tag, sort = "latest", authorId } = searchParams;
 
   const orderBy =
     sort === "likes"
@@ -31,7 +25,10 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
       : { createdAt: "desc" as const };
 
   const tools = await prisma.tool.findMany({
-    where: safeCategory ? { category: safeCategory } : {},
+    where: {
+      ...(tag ? { tags: { contains: tag } } : {}),
+      ...(authorId ? { authorId } : {}),
+    },
     include: {
       author: { select: { id: true, name: true, image: true } },
       _count: { select: { likes: true, comments: true } },
@@ -39,37 +36,47 @@ export default async function ToolsPage({ searchParams }: ToolsPageProps) {
     orderBy,
   });
 
+  // 전체 툴에서 모든 태그 수집
+  const allTools = await prisma.tool.findMany({
+    select: { tags: true },
+    where: { tags: { not: "" } },
+  });
+  const tagSet = new Set<string>();
+  allTools.forEach((t) => t.tags.split(",").filter(Boolean).forEach((tg) => tagSet.add(tg)));
+  const allTags = Array.from(tagSet).sort();
+
+  // 작성자 필터 중일 때 이름 가져오기
+  let authorName: string | undefined;
+  if (authorId) {
+    const user = await prisma.user.findUnique({ where: { id: authorId }, select: { name: true } });
+    authorName = user?.name ?? undefined;
+  }
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="mb-5">
+    <div className="max-w-6xl mx-auto px-4 py-5">
+      <div className="mb-4">
         <h1 className="text-xl font-bold text-gray-900">Toolbox</h1>
-        <p className="text-gray-500 text-xs mt-0.5">
-          팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음
-        </p>
+        <p className="text-gray-500 text-xs mt-0.5">팀원들이 바이코딩으로 만든 툴과 컨텐츠 모음</p>
       </div>
 
-      <div className="mb-6">
-        <Suspense fallback={<div className="h-10" />}>
-          <CategoryFilter />
+      <div className="mb-5">
+        <Suspense fallback={<div className="h-16" />}>
+          <TagFilter allTags={allTags} authorName={authorName} />
         </Suspense>
       </div>
 
       {tools.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
-          <div className="text-5xl mb-4">🧰</div>
-          <p className="text-lg font-medium">아직 등록된 툴이 없어요</p>
+          <div className="text-4xl mb-3">🧰</div>
+          <p className="font-medium">등록된 툴이 없어요</p>
           {session?.user && (
             <p className="text-sm mt-2">
-              첫 번째로{" "}
-              <Link href="/tools/new" className="text-slate-700 underline">
-                툴을 등록
-              </Link>
-              해보세요!
+              <Link href="/tools/new" className="text-slate-700 underline">첫 번째로 등록</Link>해보세요!
             </p>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {tools.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
           ))}

@@ -73,6 +73,7 @@ model Tool {
   description String
   githubUrl   String?
   helpRequest String?
+  tags        String   @default("")
   category    Category @default(GENERAL)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
